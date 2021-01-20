@@ -5,9 +5,7 @@ import { createRouterLayout } from 'vue-router-layout'
 
 Vue.use(Router)
 
-const RouterLayout = createRouterLayout(layout => {
-  return import('@/layouts/' + layout + '.vue')
-})
+const RouterLayout = createRouterLayout(layout => import(`@/layouts/${  layout  }.vue`))
 
 export default new Router({
   routes: [

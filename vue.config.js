@@ -6,6 +6,8 @@ module.exports = {
       chunkNamePrefix: 'page-'
     },
     electronBuilder: {
+      nodeIntegration: true,
+      contextIsolation:true,
       builderOptions: {
         publish: {
           provider: 'generic',

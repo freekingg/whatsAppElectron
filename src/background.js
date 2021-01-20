@@ -1,7 +1,7 @@
-'use strict'
+import { app, protocol, BrowserWindow, BrowserView } from 'electron'
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 
-import { app, protocol, BrowserWindow } from 'electron'
-import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 // import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 
@@ -22,8 +22,8 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: tru
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1600,
+    height: 800,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -31,16 +31,18 @@ function createWindow() {
     },
   })
 
+  console.log('vvv', process.versions.chrome)
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     // autoUpdater.checkForUpdates()
     if (!process.env.IS_TEST) win.webContents.openDevTools()
 
-    const view = new BrowserView()
-    win.setBrowserView(view)
-    view.setBounds({ x: 0, y: 0, width: 300, height: 300 })
-    view.webContents.loadURL('https://web.whatsapp.com/')
+    // const view = new BrowserView()
+    // win.setBrowserView(view)
+    // view.setBounds({ x: 0, y: 0, width: 1000, height: 500 })
+    // view.webContents.loadURL('https://web.whatsapp.com/')
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -48,6 +50,9 @@ function createWindow() {
     // autoUpdater.checkForUpdates()
   }
 
+  win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    callback({responseHeaders: Object.fromEntries(Object.entries(details.responseHeaders).filter(header => !/x-frame-options/i.test(header[0])))});
+});
   win.on('closed', () => {
     win = null
   })
@@ -77,7 +82,7 @@ app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
-      await installVueDevtools()
+      await installExtension(VUEJS_DEVTOOLS)
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
