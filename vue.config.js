@@ -3,29 +3,27 @@
 module.exports = {
   pluginOptions: {
     autoRouting: {
-      chunkNamePrefix: 'page-'
+      chunkNamePrefix: 'page-',
     },
     electronBuilder: {
-      nodeIntegration: true,
-      contextIsolation:true,
       builderOptions: {
         publish: {
           provider: 'generic',
-          url: 'https://cdn.d2.pub/mirrors/d2-projects/electron-vue-template/releases/latest/'
+          url: 'https://cdn.d2.pub/mirrors/d2-projects/electron-vue-template/releases/latest/',
         },
         productName: 'electron-vue-template',
         artifactName: '${productName}-${version}.${ext}',
         win: {
           signAndEditExecutable: false,
-          target: ['nsis', 'portable']
+          target: ['nsis', 'portable'],
         },
         portable: {
-          artifactName: '${productName}-portable-${version}.${ext}'
-        }
-      }
-    }
+          artifactName: '${productName}-portable-${version}.${ext}',
+        },
+      },
+    },
   },
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     config.module
       .rule('vue')
       .use('vue-loader')
@@ -34,9 +32,9 @@ module.exports = {
         options.transformAssetUrls = {
           img: 'src',
           image: 'xlink:href',
-          'a-avatar': 'src'
+          'a-avatar': 'src',
         }
         return options
       })
-  }
+  },
 }

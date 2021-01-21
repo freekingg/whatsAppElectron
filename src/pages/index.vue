@@ -1,21 +1,18 @@
 <template>
-  <div>home.
-
-<webview id="foo" src="https://www.github.com/" style="display:inline-flex; width:640px; height:480px"></webview>
-
-
+  <div>
+    home.......
     <iframe width="100%" height="600" src="https://web.whatsapp.com/" frameborder="0"></iframe>
   </div>
 </template>
 
 <script>
-import { ipcRenderer } from "electron";
+// import { ipcRenderer } from 'electron'
+// const { ipcRenderer } = require('electron')
 
 export default {
   name: 'home',
-  created(){
-    console.log(ipcRenderer)
-  }
+  created() {
+    // console.log(ipcRenderer)
+  },
 }
 </script>
-

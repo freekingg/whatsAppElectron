@@ -1,9 +1,11 @@
-import { app, protocol, BrowserWindow, BrowserView } from 'electron'
+import { app, protocol, BrowserWindow, BrowserView, session } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+// import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
 // import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
+
+const path = require('path')
 
 Object.assign(console, log.functions)
 
@@ -18,31 +20,34 @@ let win
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
-
+console.log('process.env.ELECTRON_NODE_INTEGRATION', process.env.ELECTRON_NODE_INTEGRATION)
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1600,
-    height: 800,
+    height: 900,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
     },
   })
 
-  console.log('vvv', process.versions.chrome)
-
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL, {
+      userAgent:
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36',
+    })
     // autoUpdater.checkForUpdates()
     if (!process.env.IS_TEST) win.webContents.openDevTools()
 
     // const view = new BrowserView()
     // win.setBrowserView(view)
-    // view.setBounds({ x: 0, y: 0, width: 1000, height: 500 })
-    // view.webContents.loadURL('https://web.whatsapp.com/')
+    // view.setBounds({ x: 0, y: 0, width: 1400, height: 900 })
+    // view.webContents.loadURL('https://web.whatsapp.com/', {
+    //   userAgent:
+    //     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36',
+    // })
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -51,8 +56,12 @@ function createWindow() {
   }
 
   win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
-    callback({responseHeaders: Object.fromEntries(Object.entries(details.responseHeaders).filter(header => !/x-frame-options/i.test(header[0])))});
-});
+    callback({
+      responseHeaders: Object.fromEntries(
+        Object.entries(details.responseHeaders).filter(header => !/x-frame-options/i.test(header[0])),
+      ),
+    })
+  })
   win.on('closed', () => {
     win = null
   })
@@ -81,13 +90,24 @@ app.on('activate', () => {
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
-    try {
-      await installExtension(VUEJS_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
+    // try {
+    //   await installExtension(VUEJS_DEVTOOLS)
+    // } catch (e) {
+    //   console.error('Vue Devtools failed to install:', e.toString())
+    // }
   }
   createWindow()
+
+  console.log(path.join(__dirname, 'dist'))
+
+  // win.webContents.session
+  //   .loadExtension(path.join(__dirname, 'dist'))
+  //   .then(result => {
+  //     console.log('result', result)
+  //   })
+  //   .catch(err => {
+  //     console.log('err', err)
+  //   })
 })
 
 // Exit cleanly on request from parent process in development mode.
