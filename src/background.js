@@ -1,15 +1,11 @@
 import { app, protocol, BrowserWindow, BrowserView, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-// import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-
-// import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 
+// import crawler from './crawler/index'
 import crawler from './crawler/crawler'
 
 const empty = require('empty-folder')
-
-console.log('crawler', crawler)
 
 const path = require('path')
 const fs = require('fs')
@@ -33,7 +29,6 @@ let win
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true, stream: true } }])
 
-console.log('process.env.ELECTRON_NODE_INTEGRATION', process.env.ELECTRON_NODE_INTEGRATION)
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -85,8 +80,6 @@ function createWindow() {
     if (Object.prototype.toString.call(url) === '[object Array]') {
       empty(screenshotDir, false, o => {
         if (o.error) console.error(o.error)
-        console.log(o.removed)
-        console.log(o.failed)
       })
 
       // for (const item of url) {
@@ -94,10 +87,12 @@ function createWindow() {
       //   event.reply('send-message-to-renderer', body)
       // }
 
-      url.map(async item => {
-        const body = await crawler(item)
-        event.reply('send-message-to-renderer', body)
-      })
+      crawler(url, event, win)
+
+      // url.map(async item => {
+      //   const body = await crawler(item)
+      //   event.reply('send-message-to-renderer', body)
+      // })
     }
   })
 }

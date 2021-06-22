@@ -13,7 +13,6 @@
   "main": "background.js",
   "dependencies": {
     "ant-design-vue": "^1.6.2",
-    "axios": "^0.19.2",
     "babel-eslint": "^7.2.3",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.28",
@@ -21,15 +20,19 @@
     "electron-updater": "^4.3.1",
     "element-ui": "^2.15.2",
     "empty-folder": "^2.0.4",
+    "file-saver": "^2.0.5",
     "flex.css": "^1.1.7",
     "fs": "0.0.1-security",
     "lodash-es": "^4.17.15",
+    "proxy-chain": "^1.0.2",
     "puppeteer": "^10.0.0",
     "puppeteer-cluster": "^0.22.0",
+    "puppeteer-page-proxy": "^1.2.8",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-router-layout": "^0.1.2",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
