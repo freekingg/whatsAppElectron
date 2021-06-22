@@ -5,17 +5,20 @@ module.exports = {
     autoRouting: {
       chunkNamePrefix: 'page-',
     },
+
     electronBuilder: {
+      nodeIntegration: true,
       builderOptions: {
         publish: {
           provider: 'generic',
           url: 'https://cdn.d2.pub/mirrors/d2-projects/electron-vue-template/releases/latest/',
         },
-        productName: 'electron-vue-template',
+        productName: '网站site查询',
         artifactName: '${productName}-${version}.${ext}',
         win: {
           signAndEditExecutable: false,
           target: ['nsis', 'portable'],
+          icon: 'icon.png',
         },
         portable: {
           artifactName: '${productName}-portable-${version}.${ext}',

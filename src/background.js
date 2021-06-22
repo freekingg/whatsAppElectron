@@ -1,13 +1,25 @@
-import { app, protocol, BrowserWindow, BrowserView, session } from 'electron'
+import { app, protocol, BrowserWindow, BrowserView, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
 // import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 
+import crawler from './crawler/crawler'
+
+const empty = require('empty-folder')
+
+console.log('crawler', crawler)
+
 const path = require('path')
+const fs = require('fs')
 
 Object.assign(console, log.functions)
+
+const screenshotDir = path.join(app.getPath('desktop'), `/screenshot`)
+fs.mkdir(screenshotDir, e => {
+  console.log('screenshot目录创建成功。')
+})
 
 // autoUpdater.logger = log
 // autoUpdater.logger.transports.file.level = 'info'
@@ -19,7 +31,8 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true, stream: true } }])
+
 console.log('process.env.ELECTRON_NODE_INTEGRATION', process.env.ELECTRON_NODE_INTEGRATION)
 function createWindow() {
   // Create the browser window.
@@ -27,6 +40,8 @@ function createWindow() {
     width: 1600,
     height: 900,
     webPreferences: {
+      nodeIntegration: true,
+      webSecurity: false,
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
     },
@@ -65,6 +80,26 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   })
+
+  ipcMain.on('crawler', async (event, url) => {
+    if (Object.prototype.toString.call(url) === '[object Array]') {
+      empty(screenshotDir, false, o => {
+        if (o.error) console.error(o.error)
+        console.log(o.removed)
+        console.log(o.failed)
+      })
+
+      // for (const item of url) {
+      //   const body = await crawler(item)
+      //   event.reply('send-message-to-renderer', body)
+      // }
+
+      url.map(async item => {
+        const body = await crawler(item)
+        event.reply('send-message-to-renderer', body)
+      })
+    }
+  })
 }
 
 // Quit when all windows are closed.
@@ -98,16 +133,11 @@ app.on('ready', async () => {
   }
   createWindow()
 
-  console.log(path.join(__dirname, 'dist'))
-
-  // win.webContents.session
-  //   .loadExtension(path.join(__dirname, 'dist'))
-  //   .then(result => {
-  //     console.log('result', result)
-  //   })
-  //   .catch(err => {
-  //     console.log('err', err)
-  //   })
+  protocol.registerFileProtocol('file', (request, cb) => {
+    const url = request.url.replace('file:///', '')
+    const decodedUrl = decodeURI(url)
+    cb(decodedUrl)
+  })
 })
 
 // Exit cleanly on request from parent process in development mode.
