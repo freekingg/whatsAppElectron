@@ -109,10 +109,11 @@ export default {
         ips: [{ required: true, message: '请输入内容', trigger: 'blur' }],
       },
       searchUrlData: [],
-      log: '暂无日志',
+      log: '提示 -- 确认电脑已经安装chrome浏览器：C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     }
   },
   created() {
+    // 监听检测结果
     ipcRenderer.on('send-message-to-renderer', (event, data) => {
       const item = JSON.parse(JSON.stringify(data))
       console.log('item: ', item)
@@ -146,6 +147,7 @@ export default {
     })
   },
   methods: {
+    // 查询
     submit() {
       this.$refs.searchForm.validate(valid => {
         if (valid) {
@@ -170,12 +172,14 @@ export default {
         return false
       })
     },
+    // 代理开关
     changeChange(e) {
       if (!e) {
         this.ipsForm.ips = ''
         ipcRenderer.send('addIps', [])
       }
     },
+    // 代理ip提交
     submitIps() {
       this.$refs.ipsForm.validate(valid => {
         if (valid) {
@@ -197,6 +201,7 @@ export default {
         return false
       })
     },
+    // 导出表格
     exportExcel() {
       if (!this.searchUrlData.length) return
       // 定义导出Excel表格事件

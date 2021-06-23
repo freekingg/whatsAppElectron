@@ -74,7 +74,7 @@ const getIp = async (ips, win) => {
   })
 }
 
-const crawler1 = async (urls, event, win) => {
+const crawler = async (urls, event, win) => {
   const cluster = await Cluster.launch(clusterLanuchOptions)
 
   await cluster.task(async ({ page, data: url }) => {
@@ -83,7 +83,6 @@ const crawler1 = async (urls, event, win) => {
     // )
 
     const proxy = await getIp(ips, win)
-    console.log('proxy', proxy)
     if (proxy !== 'noProxy') {
       await useProxy(page, `http://${proxy.ip}:${proxy.port}`)
       useProxy.lookup(page).then(data => {
@@ -141,6 +140,7 @@ const crawler1 = async (urls, event, win) => {
     }
   })
 
+  // 队列执行任务
   for (const iterator of urls) {
     cluster.queue(iterator)
   }
@@ -153,4 +153,4 @@ const crawler1 = async (urls, event, win) => {
   })
 }
 
-export default crawler1
+export default crawler

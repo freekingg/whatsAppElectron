@@ -17,10 +17,10 @@ var checkProxy = function(proxy, headers) {
       },
       function(err, response, body) {
         if (!err && response.statusCode === 200) {
-          console.log(proxy.ip + ' 链接成功：')
+          // console.log(proxy.ip + ' 链接成功：')
           resolve(true)
         } else {
-          console.log(proxy.ip + ' 链接失败')
+          // console.log(proxy.ip + ' 链接失败')
           resolve(false)
         }
       },
