@@ -12,7 +12,6 @@
   },
   "main": "background.js",
   "dependencies": {
-    "ant-design-vue": "^1.6.2",
     "babel-eslint": "^7.2.3",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.28",
@@ -24,7 +23,6 @@
     "flex.css": "^1.1.7",
     "fs": "0.0.1-security",
     "lodash-es": "^4.17.15",
-    "proxy-chain": "^1.0.2",
     "puppeteer": "^10.0.0",
     "puppeteer-cluster": "^0.22.0",
     "puppeteer-page-proxy": "^1.2.8",

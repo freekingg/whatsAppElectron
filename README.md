@@ -17,3 +17,7 @@
 * [七牛云跨区域同步](https://portal.qiniu.com/kodo)
 
 > 七牛云文件前缀 `mirrors/d2-projects/electron-vue-template`
+
+
+## log
+C:\Users\user\AppData\Roaming\site\logs

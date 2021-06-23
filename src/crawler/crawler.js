@@ -16,8 +16,8 @@ ipcMain.on('addIps', async (event, data) => {
 
 const launchOptions = {
   headless: true,
-  // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-  executablePath: 'node_modules\\puppeteer\\.local-chromium\\win64-884014\\chrome-win\\chrome.exe',
+  executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+  // executablePath: 'node_modules\\puppeteer\\.local-chromium\\win64-884014\\chrome-win\\chrome.exe',
   ignoreHTTPSErrors: true, // 忽略证书错误
   args: [
     '--disable-gpu',

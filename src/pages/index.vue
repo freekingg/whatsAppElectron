@@ -19,12 +19,21 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="submit" type="primary" :loading="loading">{{ loading ? '查询中' : '查询' }}</el-button>
+        <el-checkbox class="proxy" @change="changeChange" v-model="proxy">使用代理</el-checkbox>
       </el-form-item>
     </el-form>
 
-    <el-form class="search-form" :inline="true" label-position="left" ref="ipsForm" :model="ipsForm" :rules="rules">
+    <el-form
+      v-if="proxy"
+      class="search-form"
+      :inline="true"
+      label-position="left"
+      ref="ipsForm"
+      :model="ipsForm"
+      :rules="rules"
+    >
       <el-form-item prop="ips">
-        <el-popover placement="top-start" title="请严格按以下格式添加" trigger="hover">
+        <el-popover placement="top-start" title="请按以下json格式添加" trigger="hover">
           <pre>
 [
   {
@@ -42,7 +51,6 @@
             v-model="ipsForm.ips"
             :autosize="{ minRows: 2, maxRows: 5 }"
             type="textarea"
-            placeholder="格式：[{ip: '112.123.234.164',port: 4226}]"
             clearable
           ></el-input>
         </el-popover>
@@ -85,6 +93,7 @@ export default {
       searchForm: {
         url: '',
       },
+      proxy: false,
       ipsForm: {
         ips: '',
       },
@@ -140,13 +149,25 @@ export default {
         return false
       })
     },
+    changeChange(e) {
+      if (!e) {
+        this.ipsForm.ips = ''
+      }
+    },
     submitIps() {
       this.$refs.ipsForm.validate(valid => {
         if (valid) {
           console.log('this.ipsForm.ips', this.ipsForm.ips)
-          const ips = JSON.parse(this.ipsForm.ips)
-          console.log('ips', ips)
-          ipcRenderer.send('addIps', ips)
+          try {
+            const ips = JSON.parse(this.ipsForm.ips)
+            ipcRenderer.send('addIps', ips)
+            this.$message('添加成功')
+          } catch (error) {
+            console.log(error)
+            this.$message.error('代理ip格式不正确')
+          }
+          // console.log('ips', ips)
+          //
 
           return true
         }
@@ -155,6 +176,7 @@ export default {
       })
     },
     exportExcel() {
+      if (!this.searchUrlData.length) return
       // 定义导出Excel表格事件
       /* 从表生成工作簿对象 */
       var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
@@ -222,5 +244,14 @@ export default {
 }
 .exportExcel {
   margin-bottom: 6px;
+}
+.el-form-item {
+  width: 300px;
+}
+.el-form-item__content {
+  width: 100%;
+}
+.proxy {
+  margin-left: 10px;
 }
 </style>
