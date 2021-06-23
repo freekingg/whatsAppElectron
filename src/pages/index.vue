@@ -11,7 +11,7 @@
       <el-form-item prop="url">
         <el-input
           v-model="searchForm.url"
-          :autosize="{ minRows: 2 }"
+          :autosize="{ minRows: 2, maxRows: 5 }"
           type="textarea"
           placeholder="请输入查询网址,多网址换行，一行一个"
           clearable
@@ -25,7 +25,7 @@
 
     <el-form
       v-if="proxy"
-      class="search-form"
+      class="search-form proxy-form"
       :inline="true"
       label-position="left"
       ref="ipsForm"
@@ -60,11 +60,18 @@
       </el-form-item>
     </el-form>
 
+    <el-alert class="log" :title="log" type="warning" :closable="false"> </el-alert>
+
     <el-button class="exportExcel" @click="exportExcel" :disabled="loading" v-if="!loading">导出</el-button>
     <br />
     <el-table id="out-table" :data="searchUrlData" border style="width: 100%">
       <el-table-column type="index" width="80"> </el-table-column>
-      <el-table-column prop="url" label="域名" width="180"> </el-table-column>
+      <el-table-column prop="url" label="域名" width="180">
+        <template slot-scope="scope">
+          <span>{{ scope.row.url }}</span>
+          <el-tag v-if="scope.row.error" type="danger">检测出错</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="include" label="是否收录" width="180"> </el-table-column>
       <el-table-column prop="title" label="收录标题"> </el-table-column>
       <el-table-column prop="imagePath" label="缩略图">
@@ -102,6 +109,7 @@ export default {
         ips: [{ required: true, message: '请输入内容', trigger: 'blur' }],
       },
       searchUrlData: [],
+      log: '暂无日志',
     }
   },
   created() {
@@ -120,8 +128,21 @@ export default {
       }
     })
 
+    // 监听任务完成
     ipcRenderer.on('all-finish', (event, data) => {
       this.loading = false
+      this.$message('所有任务已完成')
+      this.log = '所有任务已完成'
+    })
+
+    // 监听错误
+    ipcRenderer.on('error', (event, data) => {
+      this.$message.error(data)
+    })
+
+    // 监听日志
+    ipcRenderer.on('log', (event, data) => {
+      this.log = data
     })
   },
   methods: {
@@ -152,6 +173,7 @@ export default {
     changeChange(e) {
       if (!e) {
         this.ipsForm.ips = ''
+        ipcRenderer.send('addIps', [])
       }
     },
     submitIps() {
@@ -247,6 +269,9 @@ export default {
 }
 .el-form-item {
   width: 300px;
+}
+.log {
+  margin-bottom: 20px;
 }
 .el-form-item__content {
   width: 100%;

@@ -1,3 +1,4 @@
+import { time } from 'console'
 import { app, ipcMain } from 'electron'
 import path from 'path'
 import { Cluster } from 'puppeteer-cluster'
@@ -6,11 +7,11 @@ import checkIp from './checkIp'
 const useProxy = require('puppeteer-page-proxy')
 
 let ips = []
+let status = ''
 
 ipcMain.on('addIps', async (event, data) => {
   if (Object.prototype.toString.call(data) === '[object Array]') {
     ips = data
-    console.log('addIps', ips)
   }
 })
 
@@ -41,11 +42,11 @@ const clusterLanuchOptions = {
   maxConcurrency: 6, // 并发的workers数
   retryLimit: 2, // 重试次数
   skipDuplicateUrls: true, // 不爬重复的url
-  monitor: true, // 显示性能消耗
+  monitor: false, // 显示性能消耗
   puppeteerOptions: launchOptions,
 }
 
-const getIp = async ips => {
+const getIp = async (ips, win) => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async resolve => {
     if (ips.length === 0) {
@@ -58,8 +59,14 @@ const getIp = async ips => {
 
     const enabled = await checkIp(current)
     if (!enabled) {
-      getIp(ips)
-      console.log('无可用ip,继续检查')
+      ips.splice(randomNo, 1)
+      if (!ips.length || status) {
+        win.webContents.send('log', `没有任何可以使用的代理ip`)
+        resolve('noProxy')
+        return
+      }
+      getIp(ips, win)
+      win.webContents.send('log', `代理ip: ${current.ip} 不可用 - 继续检测其它代理ip`)
     } else {
       console.log('检测到当前可用ip', current)
       resolve(current)
@@ -75,11 +82,13 @@ const crawler1 = async (urls, event, win) => {
     //   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
     // )
 
-    const proxy = await getIp(ips)
+    const proxy = await getIp(ips, win)
+    console.log('proxy', proxy)
     if (proxy !== 'noProxy') {
       await useProxy(page, `http://${proxy.ip}:${proxy.port}`)
       useProxy.lookup(page).then(data => {
         console.log('当前使用ip', data)
+        win.webContents.send('log', `当前使用ip-${data.ip}`)
       })
     }
 
@@ -87,14 +96,19 @@ const crawler1 = async (urls, event, win) => {
       await page.goto('https://baidu.com')
     } catch (error) {
       console.log('打开网页出错', url, error)
+      win.webContents.send('error', `打开网页出错-${url}`)
+      win.webContents.send('log', `打开网页出错-${url}`)
     }
     const inputArea = await page.$('#kw')
     await inputArea.type(`site:${url}`)
     await page.click('#su')
+
+    win.webContents.send('log', `检测地址-${url}`)
+
     let body = {}
     const imagePath = path.join(app.getPath('desktop'), `/screenshot/${url}.png`)
     try {
-      await page.waitForSelector('#container', { timeout: 15000 })
+      await page.waitForSelector('#container', { timeout: 10000 })
       // content_none 判断是否有结果
       const contentNone = await page.$('.content_none')
       await page.screenshot({ path: imagePath })
@@ -114,12 +128,17 @@ const crawler1 = async (urls, event, win) => {
         // 没有收录结果
       }
       body.imagePath = imagePath
+      body.url = url
+      body.error = false
+      event.reply('send-message-to-renderer', body)
     } catch (error) {
       console.log('error', error)
+      win.webContents.send('log', `打开网页出错-${url}`)
       body.title = []
+      body.url = url
+      body.error = true
+      event.reply('send-message-to-renderer', body)
     }
-    body.url = url
-    event.reply('send-message-to-renderer', body)
   })
 
   for (const iterator of urls) {
@@ -129,6 +148,7 @@ const crawler1 = async (urls, event, win) => {
   await cluster.idle()
   await cluster.close().then(res => {
     console.log('全部完成,关闭')
+    status = 'all-finish'
     win.webContents.send('all-finish', true)
   })
 }
