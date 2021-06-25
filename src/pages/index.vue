@@ -62,18 +62,63 @@
 
     <el-alert class="log" :title="log" type="warning" :closable="false"> </el-alert>
 
-    <el-button class="exportExcel" @click="exportExcel" :disabled="loading" v-if="!loading">导出</el-button>
+    <el-button class="exportExcel" type="primary" @click="exportExcel('out-table')" :disabled="loading" v-if="!loading"
+      >导出全部</el-button
+    >
+    <el-button
+      class="exportExcel"
+      type="warning"
+      @click="exportExcel('error-table')"
+      :disabled="loading"
+      v-if="!loading && hasError"
+      >导出失败</el-button
+    >
     <br />
+    <!-- 全部数组的表格 -->
     <el-table id="out-table" :data="searchUrlData" border style="width: 100%">
       <el-table-column type="index" width="80"> </el-table-column>
       <el-table-column prop="url" label="域名" width="180">
         <template slot-scope="scope">
           <span>{{ scope.row.url }}</span>
-          <el-tag v-if="scope.row.error" type="danger">检测出错</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="include" label="是否收录" width="180"> </el-table-column>
       <el-table-column prop="title" label="收录标题"> </el-table-column>
+      <el-table-column prop="url" label="检测状态" width="180">
+        <template slot-scope="scope">
+          <el-tag v-if="!scope.row.error" type="danger">成功</el-tag>
+          <el-tag v-else type="danger">检测出错</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="imagePath" label="缩略图">
+        <template slot-scope="scope">
+          <el-image
+            v-if="scope.row.imagePath"
+            style="width: 100px; height: 100px"
+            :src="scope.row.imagePath"
+            :preview-src-list="[scope.row.imagePath]"
+          >
+          </el-image>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!-- 有错误数据的表格 -->
+    <el-table id="error-table" :data="errorUrlData" border style="width: 100%">
+      <el-table-column type="index" width="80"> </el-table-column>
+      <el-table-column prop="url" label="域名" width="180">
+        <template slot-scope="scope">
+          <span>{{ scope.row.url }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="include" label="是否收录" width="180"> </el-table-column>
+      <el-table-column prop="title" label="收录标题"> </el-table-column>
+      <el-table-column prop="url" label="检测状态" width="180">
+        <template slot-scope="scope">
+          <el-tag v-if="!scope.row.error" type="danger">成功</el-tag>
+          <el-tag v-else type="danger">检测失败</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="imagePath" label="缩略图">
         <template slot-scope="scope">
           <el-image
@@ -109,6 +154,8 @@ export default {
         ips: [{ required: true, message: '请输入内容', trigger: 'blur' }],
       },
       searchUrlData: [],
+      errorUrlData: [],
+      hasError: false,
       log: '提示 -- 确认电脑已经安装chrome浏览器：C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     }
   },
@@ -116,12 +163,14 @@ export default {
     // 监听检测结果
     ipcRenderer.on('send-message-to-renderer', (event, data) => {
       const item = JSON.parse(JSON.stringify(data))
-      console.log('item: ', item)
       if (item.title.length) {
         item.title = item.title[0].title
         item.include = '是'
       } else {
         item.include = '否'
+      }
+      if (item.error) {
+        this.hasError = true
       }
       this.searchUrlData.push(item)
       if (this.searchUrlData.length === this.urlCount) {
@@ -134,6 +183,13 @@ export default {
       this.loading = false
       this.$message('所有任务已完成')
       this.log = '所有任务已完成'
+
+      if (this.hasError) {
+        const errUrls = this.searchUrlData.filter(item => {
+          return item.error
+        })
+        this.errorUrlData = errUrls
+      }
     })
 
     // 监听错误
@@ -153,6 +209,7 @@ export default {
         if (valid) {
           this.searchUrlData = []
           this.loading = true
+          this.hasError = false
 
           var oparray = []
           var res = this.searchForm.url
@@ -202,11 +259,11 @@ export default {
       })
     },
     // 导出表格
-    exportExcel() {
-      if (!this.searchUrlData.length) return
+    exportExcel(id) {
+      // if (!this.searchUrlData.length) return
       // 定义导出Excel表格事件
       /* 从表生成工作簿对象 */
-      var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      var wb = XLSX.utils.table_to_book(document.getElementById(id))
       /* 获取二进制字符串作为输出 */
       var wbout = XLSX.write(wb, {
         bookType: 'xlsx',
@@ -283,5 +340,11 @@ export default {
 }
 .proxy {
   margin-left: 10px;
+}
+#error-table {
+  display: none;
+}
+.url {
+  padding-right: 4px;
 }
 </style>

@@ -16,7 +16,7 @@ ipcMain.on('addIps', async (event, data) => {
 })
 
 const launchOptions = {
-  headless: true,
+  headless: false,
   executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   // executablePath: 'node_modules\\puppeteer\\.local-chromium\\win64-884014\\chrome-win\\chrome.exe',
   ignoreHTTPSErrors: true, // 忽略证书错误
@@ -91,12 +91,24 @@ const crawler = async (urls, event, win) => {
       })
     }
 
+    // 随机数下标
+    const times = [1000, 2000, 3000, 4000]
+    const randomNo = Math.floor(Math.random() * times.length)
+    const currentTime = times[randomNo]
+    await page.waitForTimeout(currentTime)
+
     try {
-      await page.goto('https://baidu.com')
+      await page.goto('https://baidu.com', { timeout: 15000 })
     } catch (error) {
       console.log('打开网页出错', url, error)
-      win.webContents.send('error', `打开网页出错-${url}`)
-      win.webContents.send('log', `打开网页出错-${url}`)
+      win.webContents.send('error', `打开网页出错-${url},请检测网络或者重试`)
+      win.webContents.send('log', `打开网页出错-${url},请检测网络或者重试`)
+
+      event.reply('send-message-to-renderer', {
+        title: '',
+        url,
+        error: true,
+      })
     }
     const inputArea = await page.$('#kw')
     await inputArea.type(`site:${url}`)
