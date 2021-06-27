@@ -1,4 +1,4 @@
-import { app, protocol, BrowserWindow, BrowserView, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import log from 'electron-log'
 
@@ -73,20 +73,27 @@ function createWindow() {
     win = null
   })
 
+  Menu.setApplicationMenu(null)
+
   ipcMain.on('clone', async (event, url) => {
     const desktopdir = path.join(app.getPath('desktop'), `/freeking-site`)
-    fs.mkdir(desktopdir, e => {
-      console.log('freeking-site目录创建成功...')
-    })
+    const checkDir = fs.existsSync(desktopdir)
+    if (!checkDir) {
+      fs.mkdir(desktopdir, e => {
+        console.log('freeking-site目录创建成功...')
+      })
+    }
     clone(url, event, win)
   })
 
   ipcMain.on('site', async (event, url) => {
-    const screenshotDir = path.join(app.getPath('desktop'), `/screenshot`)
-    fs.mkdir(screenshotDir, e => {
-      console.log('screenshot目录创建成功。')
-    })
-
+    const dir = path.join(app.getPath('desktop'), `/screenshot`)
+    const checkDir = fs.existsSync(dir)
+    if (!checkDir) {
+      fs.mkdir(dir, e => {
+        console.log('screenshot目录创建成功。')
+      })
+    }
     empty(screenshotDir, false, o => {
       if (o.error) console.error(o.error)
     })

@@ -1,8 +1,15 @@
 <template>
   <div id="app">
-    <el-row :gutter="10">
+    <el-row>
       <el-col :span="3">
-        <el-menu router default-active="2" class="el-menu-vertical-demo">
+        <el-menu
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          router
+          default-active="2"
+          class="el-menu-vertical-demo"
+        >
           <el-menu-item index="/">
             <i class="el-icon-menu"></i>
             <span slot="title">首页</span>
@@ -31,3 +38,8 @@ export default {
   name: 'freeking-site',
 }
 </script>
+<style>
+.el-menu {
+  height: 100vh;
+}
+</style>
