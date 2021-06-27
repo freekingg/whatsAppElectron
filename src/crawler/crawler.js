@@ -111,7 +111,7 @@ const crawler = async (urls, event, win) => {
       })
     }
     const inputArea = await page.$('#kw')
-    await inputArea.type(`site:${url}`)
+    await inputArea.type(`site:${url}`, 5000)
     await page.click('#su')
 
     win.webContents.send('log', `检测地址-${url}`)
