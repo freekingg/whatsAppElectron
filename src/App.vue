@@ -7,7 +7,7 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           router
-          default-active="2"
+          default-active="/"
           class="el-menu-vertical-demo"
         >
           <el-menu-item index="/">
@@ -21,6 +21,10 @@
           <el-menu-item index="site">
             <i class="el-icon-menu"></i>
             <span slot="title">收录查询</span>
+          </el-menu-item>
+          <el-menu-item index="nav">
+            <i class="el-icon-menu"></i>
+            <span slot="title">站长导航</span>
           </el-menu-item>
         </el-menu>
       </el-col>
