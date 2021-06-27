@@ -94,7 +94,7 @@ function createWindow() {
         console.log('screenshot目录创建成功。')
       })
     }
-    empty(screenshotDir, false, o => {
+    empty(dir, false, o => {
       if (o.error) console.error(o.error)
     })
 

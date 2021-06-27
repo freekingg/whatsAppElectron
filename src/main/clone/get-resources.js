@@ -23,9 +23,9 @@ const clone = async (link, win) => {
       const { pathname, origin, host } = new URL(response.url())
       const extname = path.extname(pathname)
       if (origin && host) {
+        // originUrlList.push(`//${host}`)
         originUrlList.push(origin)
         // originUrlList.push(host)
-        originUrlList.push(`//${host}`)
       }
       const extnames = [
         '.js',
@@ -52,9 +52,15 @@ const clone = async (link, win) => {
       }
     })
 
-    await page.goto(link, {
-      waitUntil: 'load',
-    })
+    try {
+      await page.goto(link, {
+        waitUntil: 'load',
+      })
+    } catch (error) {
+      await browser.close()
+      win.webContents.send('clone-log', `网址打开失败，请重试`)
+      win.webContents.send('clone-all-finish', true)
+    }
 
     const timer = await page.evaluate(() => {
       let totalHeight = 0
