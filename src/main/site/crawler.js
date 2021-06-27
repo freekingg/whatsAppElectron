@@ -16,9 +16,8 @@ ipcMain.on('addIps', async (event, data) => {
 })
 
 const launchOptions = {
-  headless: false,
+  headless: true,
   executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-  // executablePath: 'node_modules\\puppeteer\\.local-chromium\\win64-884014\\chrome-win\\chrome.exe',
   ignoreHTTPSErrors: true, // 忽略证书错误
   args: [
     '--disable-gpu',
@@ -61,12 +60,12 @@ const getIp = async (ips, win) => {
     if (!enabled) {
       ips.splice(randomNo, 1)
       if (!ips.length || status) {
-        win.webContents.send('log', `没有任何可以使用的代理ip`)
+        win.webContents.send('site-log', `没有任何可以使用的代理ip`)
         resolve('noProxy')
         return
       }
       getIp(ips, win)
-      win.webContents.send('log', `代理ip: ${current.ip} 不可用 - 继续检测其它代理ip`)
+      win.webContents.send('site-log', `代理ip: ${current.ip} 不可用 - 继续检测其它代理ip`)
     } else {
       console.log('检测到当前可用ip', current)
       resolve(current)
@@ -87,7 +86,7 @@ const crawler = async (urls, event, win) => {
       await useProxy(page, `http://${proxy.ip}:${proxy.port}`)
       useProxy.lookup(page).then(data => {
         console.log('当前使用ip', data)
-        win.webContents.send('log', `当前使用ip-${data.ip}`)
+        win.webContents.send('site-log', `当前使用ip-${data.ip}`)
       })
     }
 
@@ -101,10 +100,10 @@ const crawler = async (urls, event, win) => {
       await page.goto('https://baidu.com', { timeout: 15000 })
     } catch (error) {
       console.log('打开网页出错', url, error)
-      win.webContents.send('error', `打开网页出错-${url},请检测网络或者重试`)
-      win.webContents.send('log', `打开网页出错-${url},请检测网络或者重试`)
+      win.webContents.send('site-error', `打开网页出错-${url},请检测网络或者重试`)
+      win.webContents.send('site-log', `打开网页出错-${url},请检测网络或者重试`)
 
-      event.reply('send-message-to-renderer', {
+      event.reply('site-send-message-to-renderer', {
         title: '',
         url,
         error: true,
@@ -114,7 +113,7 @@ const crawler = async (urls, event, win) => {
     await inputArea.type(`site:${url}`, 5000)
     await page.click('#su')
 
-    win.webContents.send('log', `检测地址-${url}`)
+    win.webContents.send('site-log', `检测地址-${url}`)
 
     let body = {}
     const imagePath = path.join(app.getPath('desktop'), `/screenshot/${url}.png`)
@@ -141,14 +140,14 @@ const crawler = async (urls, event, win) => {
       body.imagePath = imagePath
       body.url = url
       body.error = false
-      event.reply('send-message-to-renderer', body)
+      event.reply('site-send-message-to-renderer', body)
     } catch (error) {
       console.log('error', error)
-      win.webContents.send('log', `打开网页出错-${url}`)
+      win.webContents.send('site-log', `打开网页出错-${url}`)
       body.title = []
       body.url = url
       body.error = true
-      event.reply('send-message-to-renderer', body)
+      event.reply('site-send-message-to-renderer', body)
     }
   })
 
@@ -161,7 +160,7 @@ const crawler = async (urls, event, win) => {
   await cluster.close().then(res => {
     console.log('全部完成,关闭')
     status = 'all-finish'
-    win.webContents.send('all-finish', true)
+    win.webContents.send('site-all-finish', true)
   })
 }
 

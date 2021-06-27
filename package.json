@@ -12,6 +12,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "axios": "^0.21.1",
     "babel-eslint": "^7.2.3",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.28",
@@ -26,6 +27,7 @@
     "puppeteer": "^10.0.0",
     "puppeteer-cluster": "^0.22.0",
     "puppeteer-page-proxy": "^1.2.8",
+    "replace-in-file": "^6.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-router-layout": "^0.1.2",

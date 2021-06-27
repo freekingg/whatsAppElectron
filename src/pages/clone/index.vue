@@ -1,15 +1,31 @@
 <template>
-  <el-card>
-    <img
-      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-      class="image"
-    />
-    <div style="padding: 14px;">
-      <span>welcome...</span>
-      <div class="bottom clearfix">
-        <time class="time">{{ currentDate }}</time>
-      </div>
-    </div>
+  <el-card class="card">
+    <el-form
+      class="search-form"
+      :inline="true"
+      label-position="left"
+      ref="searchForm"
+      :model="searchForm"
+      :rules="rules"
+    >
+      <el-form-item prop="url">
+        <el-input v-model="searchForm.url" placeholder="请输入需要克隆网址" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="submit" type="primary" :loading="loading">{{ loading ? '克隆中' : '克隆' }}</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-alert class="log" :title="log" type="warning" :closable="false"> </el-alert>
+
+    <el-timeline>
+      <el-timeline-item placement="top" v-for="(item, index) in cards" :key="index">
+        <el-card>
+          <h4>{{ item.title }}</h4>
+          <p>{{ item.content }}</p>
+        </el-card>
+      </el-timeline-item>
+    </el-timeline>
   </el-card>
 </template>
 
@@ -31,7 +47,6 @@ export default {
     }
 
     return {
-      currentDate: new Date().toLocaleTimeString(),
       loading: false,
       searchForm: {
         url: '',
@@ -50,10 +65,10 @@ export default {
   },
   created() {
     // 监听检测结果
-    ipcRenderer.on('send-message-to-renderer', (event, data) => {})
+    ipcRenderer.on('clone-send-message-to-renderer', (event, data) => {})
 
     // 监听任务完成
-    ipcRenderer.on('all-finish', () => {
+    ipcRenderer.on('clone-all-finish', () => {
       this.loading = false
       this.$message('所有任务已完成')
       this.log = '所有任务已完成'
@@ -67,15 +82,15 @@ export default {
     })
 
     // 监听错误
-    ipcRenderer.on('error', (event, data) => {
+    ipcRenderer.on('clone-error', (event, data) => {
       this.$message.error(data)
     })
 
     // 监听日志
-    ipcRenderer.on('log', (event, data) => {
+    ipcRenderer.on('clone-log', (event, data) => {
       this.log = data
     })
-    ipcRenderer.on('main-log', (event, data) => {
+    ipcRenderer.on('clone-main-log', (event, data) => {
       this.cards.push(data)
     })
   },

@@ -1,18 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import routes from 'vue-auto-routing'
-import { createRouterLayout } from 'vue-router-layout'
 
+import index from '@/pages/index'
+import clone from '@/pages/clone'
+import site from '@/pages/site'
 Vue.use(Router)
-
-const RouterLayout = createRouterLayout(layout => import(`@/layouts/${  layout  }.vue`))
 
 export default new Router({
   routes: [
     {
       path: '/',
-      component: RouterLayout,
-      children: routes
-    }
-  ]
+      name: 'index',
+      component: index,
+    },
+    {
+      path: '/clone',
+      name: 'clone',
+      component: clone,
+    },
+    {
+      path: '/site',
+      name: 'site',
+      component: site,
+    },
+    {
+      path: '*',
+      redirect: '/',
+    },
+  ],
 })

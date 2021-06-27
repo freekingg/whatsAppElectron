@@ -3,7 +3,8 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import log from 'electron-log'
 
 // import crawler from './crawler/index'
-import crawler from './crawler/crawler'
+import site from './main/site/crawler'
+import clone from './main/clone/'
 
 const empty = require('empty-folder')
 
@@ -11,11 +12,6 @@ const path = require('path')
 const fs = require('fs')
 
 Object.assign(console, log.functions)
-
-const screenshotDir = path.join(app.getPath('desktop'), `/screenshot`)
-fs.mkdir(screenshotDir, e => {
-  console.log('screenshot目录创建成功。')
-})
 
 // autoUpdater.logger = log
 // autoUpdater.logger.transports.file.level = 'info'
@@ -66,6 +62,7 @@ function createWindow() {
   }
 
   win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    // eslint-disable-next-line standard/no-callback-literal
     callback({
       responseHeaders: Object.fromEntries(
         Object.entries(details.responseHeaders).filter(header => !/x-frame-options/i.test(header[0])),
@@ -76,24 +73,25 @@ function createWindow() {
     win = null
   })
 
-  ipcMain.on('crawler', async (event, url) => {
-    if (Object.prototype.toString.call(url) === '[object Array]') {
-      empty(screenshotDir, false, o => {
-        if (o.error) console.error(o.error)
-      })
+  ipcMain.on('clone', async (event, url) => {
+    const desktopdir = path.join(app.getPath('desktop'), `/freeking-site`)
+    fs.mkdir(desktopdir, e => {
+      console.log('freeking-site目录创建成功...')
+    })
+    clone(url, event, win)
+  })
 
-      // for (const item of url) {
-      //   const body = await crawler(item)
-      //   event.reply('send-message-to-renderer', body)
-      // }
+  ipcMain.on('site', async (event, url) => {
+    const screenshotDir = path.join(app.getPath('desktop'), `/screenshot`)
+    fs.mkdir(screenshotDir, e => {
+      console.log('screenshot目录创建成功。')
+    })
 
-      crawler(url, event, win)
+    empty(screenshotDir, false, o => {
+      if (o.error) console.error(o.error)
+    })
 
-      // url.map(async item => {
-      //   const body = await crawler(item)
-      //   event.reply('send-message-to-renderer', body)
-      // })
-    }
+    site(url, event, win)
   })
 }
 
