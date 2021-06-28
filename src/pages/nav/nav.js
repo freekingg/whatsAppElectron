@@ -1,9 +1,9 @@
 const data = [
   {
-    title: '热门推荐',
+    title: '最常使用',
     list: [
       {
-        title: 'chinaz',
+        title: 'chinaz站长网',
         link: 'http://seo.chinaz.com/',
         info: 'seo综合查询，在各大搜索引擎的信息',
       },
@@ -13,19 +13,19 @@ const data = [
         info: 'seo综合查询，在各大搜索引擎的信息',
       },
       {
-        title: '5118',
+        title: '5118大数据',
         link: 'https://www.5118.com/',
         info: '营销大数据 - 智能原创改写,长尾词挖掘,营销情报,站长工具',
-      },
-      {
-        title: '2898',
-        link: 'http://www.2898.com/',
-        info: '站长资源平台-站长工具-友情链接-免费资源互换-网站交易平台',
       },
       {
         title: '桔子SEO',
         link: 'https://seo.juziseo.com/',
         info: 'seo综合查询，快照历史，反链,外链,老域名,快照历史,站长查询工具',
+      },
+      {
+        title: '2898站长网',
+        link: 'http://www.2898.com/',
+        info: '站长资源平台-站长工具-友情链接-免费资源互换-网站交易平台',
       },
       {
         title: '百度指数',
@@ -53,6 +53,11 @@ const data = [
         info: '老域名,域名,域名查询,域名抢注,域名买卖,域名交易,域名管理,聚名网,juming.com',
       },
       {
+        title: '爱名网',
+        link: 'https://www.22.cn/',
+        info: '老域名,域名,域名查询,域名抢注,域名买卖,域名交易,域名管理',
+      },
+      {
         title: 'A5交易网',
         link: 'https://www.a5.net/',
         info: '互联网资源交易平台，提供域名网站、新媒体、商标、网店等交易服务。',
@@ -61,11 +66,6 @@ const data = [
         title: '互站网',
         link: 'https://www.huzhan.com/',
         info: '国内知名的网站交易、源码交易、域名交易服务中心',
-      },
-      {
-        title: '爱名网',
-        link: 'https://www.22.cn/',
-        info: '老域名,域名,域名查询,域名抢注,域名买卖,域名交易,域名管理',
       },
       {
         title: 'godaddy',
@@ -95,7 +95,7 @@ const data = [
     title: 'SEO',
     list: [
       {
-        title: 'chinaz工具',
+        title: 'chinazSEO',
         link: 'http://seo.chinaz.com/',
         info: 'seo综合查询，在各大搜索引擎的信息',
       },
@@ -105,7 +105,7 @@ const data = [
         info: 'seo综合查询，在各大搜索引擎的信息',
       },
       {
-        title: '5118',
+        title: '5118大数据',
         link: 'https://www.5118.com/',
         info: '营销大数据 - 智能原创改写,长尾词挖掘,营销情报,站长工具',
       },
@@ -115,7 +115,7 @@ const data = [
         info: '搜外友链平台，智能友链管理专家，专注友情链接交换、交易、查询、监控。',
       },
       {
-        title: '2898',
+        title: '2898站长平台',
         link: 'http://www.2898.com/',
         info: '站长资源平台-站长工具-友情链接-免费资源互换-网站交易平台',
       },
@@ -151,6 +151,37 @@ const data = [
       },
     ],
   },
+
+  {
+    title: '平台',
+    list: [
+      {
+        title: '百度资源平台',
+        link: 'https://ziyuan.baidu.com/',
+        info: '为开发者、内容创作者、站点管理者等伙伴，提供优化工具、数据、课程、Q&A等服务',
+      },
+      {
+        title: '搜狗站长平台',
+        link: 'https://zhanzhang.sogou.com/',
+        info: '搜狗资源平台_公平开放的交流平台',
+      },
+      {
+        title: 'Google站长平台',
+        link: 'https://zhanzhang.sm.cn/',
+        info: '跟踪您的网站在搜索结果中的排名，并可以浏览 Google 网站站长支持、学习和社区资源',
+      },
+      {
+        title: '神马站长平台',
+        link: 'https://zhanzhang.sm.cn/',
+        info: '神马站长平台，站长平台，服务合作，开发者，共享，技术，站长',
+      },
+      {
+        title: '360站长平台',
+        link: 'https://zhanzhang.so.com/',
+        info: '360站长平台-站长平台',
+      },
+    ],
+  },
   {
     title: '统计',
     list: [
@@ -181,33 +212,57 @@ const data = [
       },
     ],
   },
+
   {
-    title: '平台',
+    title: '排名',
     list: [
       {
-        title: '百度资源平台',
-        link: 'https://ziyuan.baidu.com/',
-        info: '为开发者、内容创作者、站点管理者等伙伴，提供优化工具、数据、课程、Q&A等服务',
+        title: '百度关键词排名查询',
+        link: 'http://tool.chinaz.com/KeyWords/',
+        info: '"通过关键词排名查询，可以快速得到当前网站的关键字在Baidu/Google的排名情况。',
       },
       {
-        title: '360站长平台',
-        link: 'https://zhanzhang.so.com/',
-        info: '360站长平台-站长平台',
+        title: '搜狗权重查询',
+        link: 'https://sogourank.aizhan.com/',
+        info: '搜狗权重,搜狗权重查询,搜狗排名,搜狗排名查询,搜狗流量分析,搜狗流量查询',
       },
       {
-        title: '搜狗站长平台',
-        link: 'https://zhanzhang.sogou.com/',
-        info: '搜狗资源平台_公平开放的交流平台',
+        title: '网站排行榜',
+        link: 'https://top.chinaz.com/',
+        info:
+          '网站排行榜是站长之家旗下专业提供中文网站排名服务的栏目，收集了国内各行业排名前列的众多知名网站，是国内专业、领先的中文网站排行榜。',
+      },
+    ],
+  },
+  {
+    title: '收录',
+    list: [
+      {
+        title: '百度收录提交',
+        link: 'https://ziyuan.baidu.com/linksubmit/url',
+        info:
+          '链接提交工具是网站主动向百度搜索推送数据的工具，本工具可缩短爬虫发现网站链接时间，网站时效性内容建议使用链接提交工具，实时向搜索推送数据。',
       },
       {
-        title: 'Google站长平台',
-        link: 'https://zhanzhang.sm.cn/',
-        info: '跟踪您的网站在搜索结果中的排名，并可以浏览 Google 网站站长支持、学习和社区资源',
+        title: '搜狗收录提交',
+        link: 'http://fankui.help.sogou.com/index.php/web/web/index?type=1',
+        info:
+          '通过网站收录/申诉提交您希望被搜狗收录的链接。提交后搜狗搜索引擎会按照标准处理，但不保证一定能够收录您提交的链接',
       },
       {
-        title: '神马站长平台',
-        link: 'https://zhanzhang.sm.cn/',
-        info: '神马站长平台，站长平台，服务合作，开发者，共享，技术，站长',
+        title: '360收录提交',
+        link: 'http://info.so.360.cn/site_submit.html',
+        info: '如果您的网站尚未被360搜索收录，请在此提交站点的首页网址即可',
+      },
+      {
+        title: 'google收录提交',
+        link: 'http://www.google.cn/intl/zh-CN/add_url.html',
+        info: 'google收录提交',
+      },
+      {
+        title: '头条收录提交',
+        link: 'https://zhanzhang.toutiao.com/#',
+        info: '头条收录提交',
       },
     ],
   },
@@ -248,58 +303,51 @@ const data = [
         link: 'https://link.aizhan.com/',
         info: '爱站网为站长提供外链查询结果，帮助您分析网站的首页反链概况，帮助网站健康发展',
       },
-    ],
-  },
-  {
-    title: '排名',
-    list: [
       {
-        title: '百度关键词排名查询',
-        link: 'http://tool.chinaz.com/KeyWords/',
-        info: '"通过关键词排名查询，可以快速得到当前网站的关键字在Baidu/Google的排名情况。',
-      },
-      {
-        title: '搜狗权重查询',
-        link: 'https://sogourank.aizhan.com/',
-        info: '搜狗权重,搜狗权重查询,搜狗排名,搜狗排名查询,搜狗流量分析,搜狗流量查询',
-      },
-      {
-        title: '网站排行榜',
-        link: 'https://top.chinaz.com/',
+        title: '老客SEO外链吧工具',
+        link: 'http://www.6ke.com.cn/tool/',
         info:
-          '网站排行榜是站长之家旗下专业提供中文网站排名服务的栏目，收集了国内各行业排名前列的众多知名网站，是国内专业、领先的中文网站排行榜。',
+          '老铁SEO外链工具原理：就是把您的网址提交大站长工具类似的网站上面进行搜索,然后就会在上面留下痕迹自动生成以网址为标题的静态页面.',
       },
     ],
   },
   {
-    title: '收录',
+    title: '站长软件',
     list: [
       {
-        title: '百度收录提交',
-        link: 'https://ziyuan.baidu.com/linksubmit/url',
+        title: '非凡软件站',
+        link: 'https://www.crsky.com/list/zhanzhanggongju.html',
+        info: '非凡软件站为您提供较新较全的站长工具、站长工具下载、站长工具排行榜等相关软件下载。',
+      },
+      {
+        title: '华军站长软件',
+        link: 'https://www.onlinedown.net/sort/65/',
         info:
-          '链接提交工具是网站主动向百度搜索推送数据的工具，本工具可缩短爬虫发现网站链接时间，网站时效性内容建议使用链接提交工具，实时向搜索推送数据。',
+          '华军软件园为您提供站长工具，其中包含国内外免费站长工具大全及站长工具软件下载，更多站长工具排行榜等内容，尽在华军软件园！',
       },
       {
-        title: '搜狗收录提交',
-        link: 'http://fankui.help.sogou.com/index.php/web/web/index?type=1',
-        info: '通过网站收录/申诉提交您希望被搜狗收录的链接。提交后搜狗搜索引擎会按照标准处理，但不保证一定能够收录您提交的链接',
+        title: '当下站长软件',
+        link: 'http://www.downxia.com/downlist/s_206_1.html',
+        info:
+          '当下软件园频道为你提供站长工具下载相关，比如有站长工具箱、日志分析器、关键词挖掘软件、SEO推广工具等软件供大家选择，当下软件园全力打造想好最热门的站长工具下载网站。',
       },
       {
-        title: '360收录提交',
-        link: 'http://info.so.360.cn/site_submit.html',
-        info: '如果您的网站尚未被360搜索收录，请在此提交站点的首页网址即可',
+        title: 'ZOL站长软件',
+        link: 'https://xiazai.zol.com.cn/heji/16680/',
+        info: 'ZOL软件下载合集页提供站长工具大全，为您推荐最好的站长工具下载，更多更好站长工具尽在中关村在线下载频道。',
       },
       {
-        title: 'google收录提交',
-        link: 'http://www.google.cn/intl/zh-CN/add_url.html',
-        info: 'google收录提交',
+        title: 'pc6站长工具',
+        link: 'http://www.pc6.com/downlist/zzgj_22_1.html',
+        info:
+          '常用的站长工具,网站推广软件集合,例如网站收录查询和alexa世界排名查询、友情链接批量检测等多种站长工具，站长朋友一定会喜欢  PC6免费提供站长工具,网站推广软件下载',
       },
       {
-        title: '头条收录提交',
-        link: 'https://zhanzhang.toutiao.com/#',
-        info: '头条收录提交',
-      }
+        title: '太平洋站长软件',
+        link: 'https://dl.pconline.com.cn/sort/1332.html',
+        info:
+          '太平洋站长工具下载专区提供各种草根站长工具下载，包含百度站长工具、搜狗站长工具、谷歌站长工具，是一个全面的站长工具箱。',
+      },
     ],
   },
   {
@@ -351,23 +399,26 @@ const data = [
       {
         title: '互站交易',
         link: 'http://www.huzhan.com/',
-        info: '互站网,国内知名的站长交易服务中心;网站交易、源码交易、域名交易、链接交易、广告买卖、建站美工任务;安全快捷的站长交易、出售、求购、交流分享平台。',
+        info:
+          '互站网,国内知名的站长交易服务中心;网站交易、源码交易、域名交易、链接交易、广告买卖、建站美工任务;安全快捷的站长交易、出售、求购、交流分享平台。',
       },
       {
         title: 'chinaz站长交易',
         link: 'https://jy.chinaz.com/',
-        info: '站长交易，全力打造一个站长都信赖的交易中介平台，专业提供域名网站、链接买卖、程序源码、建站美工任务等网络交易中介服务平台。',
+        info:
+          '站长交易，全力打造一个站长都信赖的交易中介平台，专业提供域名网站、链接买卖、程序源码、建站美工任务等网络交易中介服务平台。',
       },
       {
         title: '2898站长交易',
         link: 'http://www.2898.com/',
-        info: '2898站长资源平台作为最全面的站长资源服务平台，致力于为广大站长和网站运营人员提供包含了友链交换、站长资讯、友情链接、网站交易、免费流量交换、站长工具、网站资源交换、软文投稿、软文推广等各个领域，是站长最好的选择',
+        info:
+          '2898站长资源平台作为最全面的站长资源服务平台，致力于为广大站长和网站运营人员提供包含了友链交换、站长资讯、友情链接、网站交易、免费流量交换、站长工具、网站资源交换、软文投稿、软文推广等各个领域，是站长最好的选择',
       },
       {
         title: '中介网',
         link: 'https://www.zhongjie.com/',
         info: '中介网作为靠谱的第三方中介交易平台，专业提供域名转让、网站交易、自媒体中介等服务',
-      }
+      },
     ],
   },
   {
@@ -404,7 +455,7 @@ const data = [
         title: '测速网',
         link: 'https://www.speedtest.cn/',
         info: '测速网 - 专业网速测试, 宽带提速, 游戏测速, 直播测速, 5G测速, 物联网监测 - SpeedTest.cn',
-      }
+      },
     ],
   },
 ]

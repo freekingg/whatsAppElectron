@@ -7,20 +7,20 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           router
-          default-active="/"
+          default-active="nav"
           class="el-menu-vertical-demo"
         >
-          <el-menu-item index="/">
+          <el-menu-item index="nav">
             <i class="el-icon-menu"></i>
             <span slot="title">首页</span>
-          </el-menu-item>
-          <el-menu-item index="clone">
-            <i class="el-icon-menu"></i>
-            <span slot="title">网站克隆</span>
           </el-menu-item>
           <el-menu-item index="site">
             <i class="el-icon-menu"></i>
             <span slot="title">收录查询</span>
+          </el-menu-item>
+          <el-menu-item index="clone">
+            <i class="el-icon-menu"></i>
+            <span slot="title">网站克隆</span>
           </el-menu-item>
           <el-menu-item index="nav">
             <i class="el-icon-menu"></i>

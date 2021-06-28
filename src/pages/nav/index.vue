@@ -7,7 +7,7 @@
         </h2>
         <div class="section">
           <div class="item" v-for="(item, index) in nav.list" :key="index">
-            <a :href="item.link" target="_blank">
+            <a href="javascript:;" @click="openLink(item.link)">
               <!-- <img src="https://image.uisdc.com/wp-content/uploads/2021/03/sdcnav-1-icon.png" alt="IconFont" /> -->
               <h3>{{ item.title }}</h3>
               <p>{{ item.info }}</p>
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
+
 import list from './nav'
 
 export default {
@@ -31,6 +32,9 @@ export default {
   },
   created() {},
   methods: {
+    openLink(link) {
+      shell.openExternal(link)
+    },
     // 查询
     submit() {
       this.$refs.searchForm.validate(valid => {
