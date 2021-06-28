@@ -28,7 +28,7 @@
           </el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="21">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
@@ -44,6 +44,7 @@ export default {
 </script>
 <style>
 .el-menu {
-  height: 100vh;
+  box-sizing: border-box;
+  height: 98vh;
 }
 </style>
