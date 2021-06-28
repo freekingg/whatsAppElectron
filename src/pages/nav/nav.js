@@ -272,6 +272,37 @@ const data = [
     ],
   },
   {
+    title: '收录',
+    list: [
+      {
+        title: '百度收录提交',
+        link: 'https://ziyuan.baidu.com/linksubmit/url',
+        info:
+          '链接提交工具是网站主动向百度搜索推送数据的工具，本工具可缩短爬虫发现网站链接时间，网站时效性内容建议使用链接提交工具，实时向搜索推送数据。',
+      },
+      {
+        title: '搜狗收录提交',
+        link: 'http://fankui.help.sogou.com/index.php/web/web/index?type=1',
+        info: '通过网站收录/申诉提交您希望被搜狗收录的链接。提交后搜狗搜索引擎会按照标准处理，但不保证一定能够收录您提交的链接',
+      },
+      {
+        title: '360收录提交',
+        link: 'http://info.so.360.cn/site_submit.html',
+        info: '如果您的网站尚未被360搜索收录，请在此提交站点的首页网址即可',
+      },
+      {
+        title: 'google收录提交',
+        link: 'http://www.google.cn/intl/zh-CN/add_url.html',
+        info: 'google收录提交',
+      },
+      {
+        title: '头条收录提交',
+        link: 'https://zhanzhang.toutiao.com/#',
+        info: '头条收录提交',
+      }
+    ],
+  },
+  {
     title: '检测',
     list: [
       {
@@ -309,6 +340,37 @@ const data = [
     ],
   },
   {
+    title: '交易',
+    list: [
+      {
+        title: 'A5站长交易',
+        link: 'https://wz.a5.net/',
+        info:
+          'A5网站交易（wz.a5.net）,是国内安全可靠、值得信赖的虚拟资产交易服务平台，提供专业的网站评估、网站安全技术、网站买卖等服务，网站交易就上a5网站交易平台。',
+      },
+      {
+        title: '互站交易',
+        link: 'http://www.huzhan.com/',
+        info: '互站网,国内知名的站长交易服务中心;网站交易、源码交易、域名交易、链接交易、广告买卖、建站美工任务;安全快捷的站长交易、出售、求购、交流分享平台。',
+      },
+      {
+        title: 'chinaz站长交易',
+        link: 'https://jy.chinaz.com/',
+        info: '站长交易，全力打造一个站长都信赖的交易中介平台，专业提供域名网站、链接买卖、程序源码、建站美工任务等网络交易中介服务平台。',
+      },
+      {
+        title: '2898站长交易',
+        link: 'http://www.2898.com/',
+        info: '2898站长资源平台作为最全面的站长资源服务平台，致力于为广大站长和网站运营人员提供包含了友链交换、站长资讯、友情链接、网站交易、免费流量交换、站长工具、网站资源交换、软文投稿、软文推广等各个领域，是站长最好的选择',
+      },
+      {
+        title: '中介网',
+        link: 'https://www.zhongjie.com/',
+        info: '中介网作为靠谱的第三方中介交易平台，专业提供域名转让、网站交易、自媒体中介等服务',
+      }
+    ],
+  },
+  {
     title: '分析',
     list: [
       {
@@ -334,20 +396,15 @@ const data = [
           'LogHao站长工具(www.LogHao.com)是在线网站蜘蛛日志分析工具,选择log/txt日志文件了解百度搜索引擎蜘蛛来路多少及爬取路径;对网站优化有帮助的在线百度蜘蛛在线分析工具.',
       },
       {
-        title: '关键词优化分析',
-        link: 'http://ping.chinaz.com/',
-        info: '关键词优化分析',
+        title: '网站测速工具',
+        link: 'https://www.boce.com/',
+        info: 'boce.com免费提供网站速度测试、网络速度检测、域名污染检测、域名被墙查询、多地区在线ping测试、dns查询',
       },
       {
         title: '测速网',
         link: 'https://www.speedtest.cn/',
         info: '测速网 - 专业网速测试, 宽带提速, 游戏测速, 直播测速, 5G测速, 物联网监测 - SpeedTest.cn',
-      },
-      {
-        title: '关键词优化分析',
-        link: 'http://ping.chinaz.com/',
-        info: '关键词优化分析',
-      },
+      }
     ],
   },
 ]
