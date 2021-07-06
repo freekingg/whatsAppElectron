@@ -4,7 +4,7 @@ import log from 'electron-log'
 
 // import crawler from './crawler/index'
 import site from './main/site/crawler'
-import clone from './main/clone/'
+import clone from './main/clone2/clone'
 
 const empty = require('empty-folder')
 
@@ -83,7 +83,7 @@ function createWindow() {
         console.log('freeking-site目录创建成功...')
       })
     }
-    clone(url, event, win)
+    clone.create(url, event, win)
   })
 
   ipcMain.on('site', async (event, url) => {
