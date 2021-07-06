@@ -1,4 +1,4 @@
-import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, Menu, Tray, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import log from 'electron-log'
 

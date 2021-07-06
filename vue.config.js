@@ -13,7 +13,7 @@ module.exports = {
           provider: 'generic',
           url: 'https://cdn.d2.pub/mirrors/d2-projects/electron-vue-template/releases/latest/',
         },
-        productName: '网站site查询',
+        productName: '站长工具',
         artifactName: '${productName}-${version}.${ext}',
         win: {
           signAndEditExecutable: false,

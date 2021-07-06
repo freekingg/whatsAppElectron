@@ -12,7 +12,7 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: index,
+      component: nav,
     },
     {
       path: '/clone',

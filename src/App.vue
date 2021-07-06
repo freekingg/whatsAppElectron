@@ -22,10 +22,10 @@
             <i class="el-icon-menu"></i>
             <span slot="title">网站克隆</span>
           </el-menu-item>
-          <el-menu-item index="nav">
+          <!-- <el-menu-item index="nav">
             <i class="el-icon-menu"></i>
             <span slot="title">站长导航</span>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </el-col>
       <el-col :span="21">
